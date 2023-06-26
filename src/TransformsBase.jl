@@ -10,4 +10,9 @@ include("interface.jl")
 include("identity.jl")
 include("sequential.jl")
 
+export
+  Transform,
+  Identity,
+  →
+
 end

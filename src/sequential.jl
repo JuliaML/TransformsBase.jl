@@ -75,3 +75,6 @@ Create a [`SequentialTransform`](@ref) transform with
   SequentialTransform([t1.transforms; t2])
 →(t1::SequentialTransform, t2::SequentialTransform) =
   SequentialTransform([t1.transforms; t2.transforms])
+→(t1::Identity, t2::Identity) = Identity()
+→(t1::Transform, t2::Identity) = t1
+→(t1::Identity, t2::Transform) = t2
