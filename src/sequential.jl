@@ -25,6 +25,8 @@ end
 
 isrevertible(s::SequentialTransform) = all(isrevertible, s.transforms)
 
+isinvertible(s::SequentialTransform) = all(isinvertible, s.transforms)
+
 function apply(s::SequentialTransform, table)
   allcache = []
   current  = table

@@ -30,8 +30,26 @@ function assertions end
 
 Tells whether or not the `transform` is revertible, i.e. supports a
 [`revert`](@ref) function. Defaults to `false` for new transform types.
+
+Transforms can be revertible and yet don't be invertible. Invertibility
+is a mathematical concept, whereas revertibility is a computational concept.
+
+See also [`isinvertible`](@ref).
 """
 function isrevertible end
+
+"""
+    isinvertible(transform)
+
+Tells whether or not the `transform` is invertible, i.e. supports a
+[`inv`](@ref) function. Defaults to `false` for new transform types.
+
+Transforms can be invertible in the mathematical sense, i.e., there
+exists a one-to-one mapping between input and output spaces.
+
+See also [`isrevertible`](@ref).
+"""
+function isinvertible end
 
 """
     prep = preprocess(transform, object)
@@ -78,6 +96,10 @@ assertions(::Type{<:Transform}) = []
 isrevertible(transform::Transform) =
   isrevertible(typeof(transform))
 isrevertible(::Type{<:Transform}) = false
+
+isinvertible(transform::Transform) =
+  isinvertible(typeof(transform))
+isinvertible(::Type{<:Transform}) = false
 
 preprocess(transform::Transform, object) = nothing
 
