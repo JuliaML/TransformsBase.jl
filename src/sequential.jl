@@ -11,21 +11,11 @@ struct SequentialTransform <: Transform
   transforms::Vector{Transform}
 end
 
-# AbstractTrees interface
-AbstractTrees.nodevalue(::SequentialTransform) = SequentialTransform
-AbstractTrees.children(s::SequentialTransform) = s.transforms
-
-Base.show(io::IO, s::SequentialTransform) =
-  print(io, join(s.transforms, " → "))
-
-function Base.show(io::IO, ::MIME"text/plain", s::SequentialTransform)
-  tree = AbstractTrees.repr_tree(s, context=io)
-  print(io, tree[begin:end-1]) # remove \n at end
-end
-
 isrevertible(s::SequentialTransform) = all(isrevertible, s.transforms)
 
 isinvertible(s::SequentialTransform) = all(isinvertible, s.transforms)
+
+Base.inv(s::SequentialTransform) = SequentialTransform([inv(t) for t in reverse(s.transforms)])
 
 function apply(s::SequentialTransform, table)
   allcache = []
@@ -80,3 +70,15 @@ Create a [`SequentialTransform`](@ref) transform with
 →(t1::Identity, t2::Identity) = Identity()
 →(t1::Transform, t2::Identity) = t1
 →(t1::Identity, t2::Transform) = t2
+
+# AbstractTrees interface
+AbstractTrees.nodevalue(::SequentialTransform) = SequentialTransform
+AbstractTrees.children(s::SequentialTransform) = s.transforms
+
+Base.show(io::IO, s::SequentialTransform) =
+  print(io, join(s.transforms, " → "))
+
+function Base.show(io::IO, ::MIME"text/plain", s::SequentialTransform)
+  tree = AbstractTrees.repr_tree(s, context=io)
+  print(io, tree[begin:end-1]) # remove \n at end
+end

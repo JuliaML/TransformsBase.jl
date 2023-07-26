@@ -5,5 +5,6 @@ using Test
   @test TransformsBase.isrevertible(Identity())
   @test TransformsBase.isinvertible(Identity())
   @test inv(Identity()) == Identity()
+  @test inv(Identity() → Identity()) == Identity()
   @test (Identity() → Identity()) == Identity()
 end
