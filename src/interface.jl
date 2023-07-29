@@ -42,7 +42,7 @@ function isrevertible end
     isinvertible(transform)
 
 Tells whether or not the `transform` is invertible, i.e. supports a
-[`Base.inv`](@ref) function. Defaults to `false` for new transform types.
+`inv` function. Defaults to `false` for new transform types.
 
 Transforms can be invertible in the mathematical sense, i.e., there
 exists a one-to-one mapping between input and output spaces.
