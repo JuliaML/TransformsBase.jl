@@ -102,7 +102,7 @@ function revert(transform::Transform, newobject, cache)
   if !isrevertible(transform)
     throw(ArgumentError("Can't revert the non-revertible transform $transform"))
   end
-  return revert(transform, newobject, cache)
+  throw("Transform $transform is revertible but revert is not yet implemented")
 end
 
 isinvertible(transform::Transform) =
@@ -114,7 +114,7 @@ function Base.inv(transform::Transform)
   if !isinvertible(transform)
     throw(ArgumentError("Can't invert the non-invertible transform $transform"))
   end
-  return inv(transform)
+  throw("Transform $transform is invertible but inv is not yet implemented")
 end
 
 preprocess(transform::Transform, object) = nothing
