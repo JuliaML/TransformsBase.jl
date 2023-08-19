@@ -97,11 +97,31 @@ isrevertible(transform::Transform) =
   isrevertible(typeof(transform))
 isrevertible(::Type{<:Transform}) = false
 
+# revert does not need to be defined for non-revertible transforms
+function revert(transform::Transform, newobject, cache)
+  if !isrevertible(transform)
+    throw(ArgumentError("Can't revert the non-revertible transform $transform"))
+  end
+  return revert(transform, newobject, cache)
+end
+
 isinvertible(transform::Transform) =
   isinvertible(typeof(transform))
 isinvertible(::Type{<:Transform}) = false
 
+# Base.inv does not need to be defined for non-invertible transforms
+function Base.inv(transform::Transform)
+  if !isinvertible(transform)
+    throw(ArgumentError("Can't invert the non-invertible transform $transform"))
+  end
+  return inv(transform)
+end
+
 preprocess(transform::Transform, object) = nothing
+
+# reapply falls back to apply if not defined
+reapply(transform::Transform, object, cache) =
+  apply(transform, object) 
 
 (transform::Transform)(object) =
   apply(transform, object) |> first
