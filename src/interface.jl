@@ -114,7 +114,7 @@ function Base.inv(transform::Transform)
   if !isinvertible(transform)
     throw(ArgumentError("Can't invert the non-invertible transform $transform"))
   end
-  throw("Transform $transform is invertible but inv is not yet implemented")
+  throw(ErrorException("Transform $transform is invertible but inv is not yet implemented"))
 end
 
 preprocess(transform::Transform, object) = nothing
