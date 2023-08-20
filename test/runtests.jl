@@ -7,9 +7,8 @@ using Test
   @test inv(Identity()) == Identity()
   @test inv(Identity() → Identity()) == Identity()
   @test (Identity() → Identity()) == Identity()
-end
 
-@testset "Testing Fallbacks" begin
+  # Testing Fallbacks
   struct TestTransform <: TransformsBase.Transform end
   T = TestTransform()
 

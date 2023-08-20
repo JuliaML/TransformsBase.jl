@@ -112,7 +112,7 @@ isinvertible(::Type{<:Transform}) = false
 # Base.inv does not need to be defined for non-invertible transforms
 function Base.inv(transform::Transform)
   if !isinvertible(transform)
-    throw(ArgumentError("Can't invert the non-invertible transform $transform"))
+    throw(ErrorException("Can't invert the non-invertible transform $transform"))
   end
   throw(ErrorException("Transform $transform is invertible but inv is not yet implemented"))
 end
