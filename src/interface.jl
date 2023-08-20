@@ -102,7 +102,7 @@ function revert(transform::Transform, newobject, cache)
   if !isrevertible(transform)
     throw(ErrorException("Can't revert the non-revertible transform $transform"))
   end
-  throw("Transform $transform is revertible but revert is not yet implemented")
+  throw(ErrorException("Transform $transform is revertible but revert is not yet implemented"))
 end
 
 isinvertible(transform::Transform) =
