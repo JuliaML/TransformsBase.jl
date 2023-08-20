@@ -9,7 +9,7 @@ using Test
   @test (Identity() → Identity()) == Identity()
 
   # Testing Fallbacks
-  struct TestTransform <: TransformsBase.Transform end
+  struct TestTransform <: Transform end
   T = TestTransform()
 
   @testset "reapply" begin
