@@ -100,7 +100,7 @@ isrevertible(::Type{<:Transform}) = false
 # revert does not need to be defined for non-revertible transforms
 function revert(transform::Transform, newobject, cache)
   if !isrevertible(transform)
-    throw(ArgumentError("Can't revert the non-revertible transform $transform"))
+    throw(ErrorException("Can't revert the non-revertible transform $transform"))
   end
   throw("Transform $transform is revertible but revert is not yet implemented")
 end
