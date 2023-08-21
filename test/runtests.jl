@@ -7,4 +7,14 @@ using Test
   @test inv(Identity()) == Identity()
   @test inv(Identity() → Identity()) == Identity()
   @test (Identity() → Identity()) == Identity()
+
+  # test fallbacks
+  struct TestTransform <: TransformsBase.Transform end
+  TransformsBase.apply(::TestTransform, x) = x, nothing
+  T = TestTransform()
+  @test !TransformsBase.isrevertible(T)
+  @test !TransformsBase.isinvertible(T)
+  @test TransformsBase.assertions(T) |> isempty
+  @test TransformsBase.preprocess(T, nothing) |> isnothing
+  @test TransformsBase.reapply(T, 1, nothing) == 1
 end
