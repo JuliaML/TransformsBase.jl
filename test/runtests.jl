@@ -13,7 +13,7 @@ using Test
   T = TestTransform()
 
   # test reapply
-  TransformsBase.apply(::TestTransform, x) = x
+  TransformsBase.apply(::TestTransform, x) = x, nothing
   @test TransformsBase.reapply(T, 1, nothing) == TransformsBase.apply(T, 1) |> first
   TransformsBase.reapply(::TestTransform, x, cache) = 2 * x
   @test TransformsBase.reapply(T, 1, nothing) == 2
