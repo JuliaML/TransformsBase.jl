@@ -20,10 +20,10 @@ using Test
   @test TransformsBase.reapply(T, 1, nothing) != TransformsBase.apply(T, 1) |> first
 
   # test revert
-  @test_throws "Can't revert the non-revertible transform TestTransform()" begin
+  @test_throws ErrorException("Can't revert the non-revertible transform TestTransform()") begin
     TransformsBase.revert(T, 1, nothing)
   end
-  @test_throws "Transform TestTransform() is revertible but revert is not yet implemented" begin
+  @test_throws ErrorException("Transform TestTransform() is revertible but revert is not yet implemented") begin
     TransformsBase.isrevertible(::TestTransform) = true
     TransformsBase.revert(T, 1, nothing)
   end
@@ -33,10 +33,10 @@ using Test
 
   # test inv
   @test !TransformsBase.isinvertible(T)
-  @test_throws "Can't invert the non-invertible transform TestTransform()" begin
+  @test_throws ErrorException("Can't invert the non-invertible transform TestTransform()") begin
     Base.inv(T)
   end
-  @test_throws "Transform TestTransform() is invertible but inv is not yet implemented" begin
+  @test_throws ErrorException("Transform TestTransform() is invertible but inv is not yet implemented") begin
     TransformsBase.isinvertible(::TestTransform) = true
     Base.inv(T)
   end
