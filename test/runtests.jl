@@ -15,6 +15,6 @@ using Test
   @test !TransformsBase.isrevertible(T)
   @test !TransformsBase.isinvertible(T)
   @test TransformsBase.assertions(T) |> isempty
-  @test TransformsBase.preprocess(T) |> isnothing
+  @test TransformsBase.preprocess(T, nothing) |> isnothing
   @test TransformsBase.reapply(T, 1, nothing) == 1
 end
