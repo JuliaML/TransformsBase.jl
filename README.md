@@ -10,5 +10,5 @@ the `Identity` and `Sequential` transforms. Check dependant packages for more in
 [build-img]: https://img.shields.io/github/actions/workflow/status/JuliaML/TransformsBase.jl/CI.yml?branch=main&style=flat-square
 [build-url]: https://github.com/JuliaML/TransformsBase.jl/actions
 
-[codecov-img]: https://codecov.io/gh/JuliaML/TransformsBase.jl/branch/master/graph/badge.svg
+[codecov-img]: https://img.shields.io/codecov/c/github/JuliaML/TransformsBase.jl?style=flat-square
 [codecov-url]: https://codecov.io/gh/JuliaML/TransformsBase.jl
