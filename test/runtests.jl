@@ -14,12 +14,12 @@ using Test
 
   # test reapply
   TransformsBase.apply(::TestTransform, x) = x, nothing
-  @test TransformsBase.reapply(T, 1, nothing) == TransformsBase.apply(T, 1) |> first
+  @test TransformsBase.reapply(T, 1, nothing) == 1
   TransformsBase.reapply(::TestTransform, x, cache) = 2 * x
   @test TransformsBase.reapply(T, 1, nothing) == 2
-  @test TransformsBase.reapply(T, 1, nothing) != TransformsBase.apply(T, 1) |> first
 
   # test revert
+  @test !TransformsBase.isrevertible(T)
   @test_throws ErrorException("Can't revert the non-revertible transform TestTransform()") begin
     TransformsBase.revert(T, 1, nothing)
   end
@@ -28,8 +28,7 @@ using Test
     TransformsBase.revert(T, 1, nothing)
   end
   TransformsBase.revert(::TestTransform, x, cache) = x
-  x2 = TransformsBase.revert(T, 1, nothing)
-  @test x2 == 1
+  @test TransformsBase.revert(T, 1, nothing) == 1
 
   # test inv
   @test !TransformsBase.isinvertible(T)
