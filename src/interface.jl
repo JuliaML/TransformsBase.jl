@@ -17,15 +17,6 @@ trait can be evaluated directly at any object.
 abstract type Transform end
 
 """
-    assertions(transform)
-
-Returns a list of assertion functions for the `transform`. An assertion
-function is a function that takes an object as input and checks if the
-object is valid for the `transform`.
-"""
-function assertions end
-
-"""
     isrevertible(transform)
 
 Tells whether or not the `transform` is revertible, i.e. supports a
@@ -50,6 +41,15 @@ exists a one-to-one mapping between input and output spaces.
 See also [`isrevertible`](@ref).
 """
 function isinvertible end
+
+"""
+    assertions(transform)
+
+Returns a list of assertion functions for the `transform`. An assertion
+function is a function that takes an object as input and checks if the
+object is valid for the `transform`.
+"""
+function assertions end
 
 """
     prep = preprocess(transform, object)
@@ -80,8 +80,9 @@ function revert end
 """
     newobject = reapply(transform, object, cache)
 
-Reapply the `transform` to (a possibly different) `object` using a `cache`
-that was created with a previous [`apply`](@ref) call.
+Reapply the `transform` to (a possibly different) `object`
+using a `cache` that was created with a previous [`apply`](@ref)
+call. Fallback to [`apply`](@ref) without using the `cache`.
 """
 function reapply end
 
@@ -89,35 +90,18 @@ function reapply end
 # TRANSFORM FALLBACKS
 # --------------------
 
-assertions(transform::Transform) =
-  assertions(typeof(transform))
-assertions(::Type{<:Transform}) = []
-
 isrevertible(transform::Transform) =
   isrevertible(typeof(transform))
 isrevertible(::Type{<:Transform}) = false
-
-function revert(transform::Transform, newobject, cache)
-  if !isrevertible(transform)
-    throw(ErrorException("Can't revert the non-revertible transform $transform"))
-  end
-  throw(ErrorException("Transform $transform is revertible but revert is not yet implemented"))
-end
 
 isinvertible(transform::Transform) =
   isinvertible(typeof(transform))
 isinvertible(::Type{<:Transform}) = false
 
-function Base.inv(transform::Transform)
-  if !isinvertible(transform)
-    throw(ErrorException("Can't invert the non-invertible transform $transform"))
-  end
-  throw(ErrorException("Transform $transform is invertible but inv is not yet implemented"))
-end
+assertions(transform::Transform) = []
 
 preprocess(transform::Transform, object) = nothing
 
-# reapply falls back to apply if not defined
 reapply(transform::Transform, object, cache) =
   apply(transform, object) |> first
 

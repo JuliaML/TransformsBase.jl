@@ -8,37 +8,13 @@ using Test
   @test inv(Identity() → Identity()) == Identity()
   @test (Identity() → Identity()) == Identity()
 
-  # testing fallbacks
+  # test fallbacks
   struct TestTransform <: TransformsBase.Transform end
-  T = TestTransform()
-
-  # test reapply
   TransformsBase.apply(::TestTransform, x) = x, nothing
-  @test TransformsBase.reapply(T, 1, nothing) == 1
-  TransformsBase.reapply(::TestTransform, x, cache) = 2 * x
-  @test TransformsBase.reapply(T, 1, nothing) == 2
-
-  # test revert
+  T = TestTransform()
   @test !TransformsBase.isrevertible(T)
-  @test_throws ErrorException("Can't revert the non-revertible transform TestTransform()") begin
-    TransformsBase.revert(T, 1, nothing)
-  end
-  @test_throws ErrorException("Transform TestTransform() is revertible but revert is not yet implemented") begin
-    TransformsBase.isrevertible(::TestTransform) = true
-    TransformsBase.revert(T, 1, nothing)
-  end
-  TransformsBase.revert(::TestTransform, x, cache) = x
-  @test TransformsBase.revert(T, 1, nothing) == 1
-
-  # test inv
   @test !TransformsBase.isinvertible(T)
-  @test_throws ErrorException("Can't invert the non-invertible transform TestTransform()") begin
-    Base.inv(T)
-  end
-  @test_throws ErrorException("Transform TestTransform() is invertible but inv is not yet implemented") begin
-    TransformsBase.isinvertible(::TestTransform) = true
-    Base.inv(T)
-  end
-  Base.inv(::TestTransform) = TestTransform()
-  @test Base.inv(T) == T
+  @test TransformsBase.assertions(T) |> isempty
+  @test TransformsBase.preprocess(T) |> isnothing
+  @test TransformsBase.reapply(T, 1, nothing) == 1
 end
