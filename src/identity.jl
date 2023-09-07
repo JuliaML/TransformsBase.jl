@@ -20,3 +20,13 @@ apply(::Identity, object) = object, nothing
 revert(::Identity, newobject, cache) = newobject
 
 reapply(::Identity, object, cache) = object
+
+# --------------
+# OPTIMIZATIONS
+# --------------
+
+→(t::Transform, ::Identity) = t
+→(::Identity, t::Transform) = t
+→(t::SequentialTransform, ::Identity) = t
+→(::Identity, t::SequentialTransform) = t
+→(::Identity, ::Identity) = Identity()

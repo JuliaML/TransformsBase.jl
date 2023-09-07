@@ -17,4 +17,9 @@ using Test
   @test TransformsBase.assertions(T) |> isempty
   @test TransformsBase.preprocess(T, nothing) |> isnothing
   @test TransformsBase.reapply(T, 1, nothing) == 1
+
+  # test optimizations
+  T = TestTransform() → TestTransform()
+  @test (T → Identity()) == T
+  @test (Identity() → T) == T
 end

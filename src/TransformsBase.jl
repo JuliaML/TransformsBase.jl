@@ -7,8 +7,8 @@ module TransformsBase
 import AbstractTrees
 
 include("interface.jl")
-include("identity.jl")
 include("sequential.jl")
+include("identity.jl")
 
 export
   Transform,
