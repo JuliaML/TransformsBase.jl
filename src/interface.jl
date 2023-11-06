@@ -32,15 +32,25 @@ function isrevertible end
 """
     isinvertible(transform)
 
-Tells whether or not the `transform` is invertible, i.e. supports a
-`inv` function. Defaults to `false` for new transform types.
+Tells whether or not the `transform` is invertible, i.e. whether it
+implements the `inverse` function. Defaults to `false` for new transform
+types.
 
 Transforms can be invertible in the mathematical sense, i.e., there
 exists a one-to-one mapping between input and output spaces.
 
-See also [`isrevertible`](@ref).
+See also [`inverse`](@ref), [`isrevertible`](@ref).
 """
 function isinvertible end
+
+"""
+    inverse(transform)
+
+Returns the inverse transform of the `transform`.
+
+See also [`isinvertible`](@ref).
+"""
+function inverse end
 
 """
     assertions(transform)
@@ -90,23 +100,19 @@ function reapply end
 # TRANSFORM FALLBACKS
 # --------------------
 
-isrevertible(transform::Transform) =
-  isrevertible(typeof(transform))
+isrevertible(transform::Transform) = isrevertible(typeof(transform))
 isrevertible(::Type{<:Transform}) = false
 
-isinvertible(transform::Transform) =
-  isinvertible(typeof(transform))
+isinvertible(transform::Transform) = isinvertible(typeof(transform))
 isinvertible(::Type{<:Transform}) = false
 
 assertions(transform::Transform) = []
 
 preprocess(transform::Transform, object) = nothing
 
-reapply(transform::Transform, object, cache) =
-  apply(transform, object) |> first
+reapply(transform::Transform, object, cache) = apply(transform, object) |> first
 
-(transform::Transform)(object) =
-  apply(transform, object) |> first
+(transform::Transform)(object) = apply(transform, object) |> first
 
 function Base.show(io::IO, transform::Transform)
   T = typeof(transform)

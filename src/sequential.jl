@@ -15,7 +15,7 @@ isrevertible(s::SequentialTransform) = all(isrevertible, s.transforms)
 
 isinvertible(s::SequentialTransform) = all(isinvertible, s.transforms)
 
-Base.inv(s::SequentialTransform) = SequentialTransform([inv(t) for t in reverse(s.transforms)])
+inverse(s::SequentialTransform) = SequentialTransform([inverse(t) for t in reverse(s.transforms)])
 
 function apply(s::SequentialTransform, table)
   allcache = []
@@ -59,21 +59,16 @@ end
 Create a [`SequentialTransform`](@ref) transform with
 `[transform₁, transform₂, …, transformₙ]`.
 """
-→(t1::Transform, t2::Transform) =
-  SequentialTransform([t1, t2])
-→(t1::Transform, t2::SequentialTransform) =
-  SequentialTransform([t1; t2.transforms])
-→(t1::SequentialTransform, t2::Transform) =
-  SequentialTransform([t1.transforms; t2])
-→(t1::SequentialTransform, t2::SequentialTransform) =
-  SequentialTransform([t1.transforms; t2.transforms])
+→(t1::Transform, t2::Transform) = SequentialTransform([t1, t2])
+→(t1::Transform, t2::SequentialTransform) = SequentialTransform([t1; t2.transforms])
+→(t1::SequentialTransform, t2::Transform) = SequentialTransform([t1.transforms; t2])
+→(t1::SequentialTransform, t2::SequentialTransform) = SequentialTransform([t1.transforms; t2.transforms])
 
 # AbstractTrees interface
 AbstractTrees.nodevalue(::SequentialTransform) = SequentialTransform
 AbstractTrees.children(s::SequentialTransform) = s.transforms
 
-Base.show(io::IO, s::SequentialTransform) =
-  print(io, join(s.transforms, " → "))
+Base.show(io::IO, s::SequentialTransform) = print(io, join(s.transforms, " → "))
 
 function Base.show(io::IO, ::MIME"text/plain", s::SequentialTransform)
   tree = AbstractTrees.repr_tree(s, context=io)
