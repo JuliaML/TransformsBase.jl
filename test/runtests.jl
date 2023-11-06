@@ -4,8 +4,8 @@ using Test
 @testset "TransformsBase.jl" begin
   @test TransformsBase.isrevertible(Identity())
   @test TransformsBase.isinvertible(Identity())
-  @test inverse(Identity()) == Identity()
-  @test inverse(Identity() → Identity()) == Identity()
+  @test TransformsBase.inverse(Identity()) == Identity()
+  @test TransformsBase.inverse(Identity() → Identity()) == Identity()
   @test (Identity() → Identity()) == Identity()
 
   # test fallbacks
