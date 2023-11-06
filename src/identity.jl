@@ -11,9 +11,9 @@ struct Identity <: Transform end
 
 isrevertible(::Type{Identity}) = true
 
-isinvertible(::Type{Identity}) = true
+isinvertible(::Identity) = true
 
-Base.inv(::Identity) = Identity()
+inverse(::Identity) = Identity()
 
 apply(::Identity, object) = object, nothing
 
