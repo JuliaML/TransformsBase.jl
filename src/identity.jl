@@ -11,7 +11,7 @@ struct Identity <: Transform end
 
 isrevertible(::Type{Identity}) = true
 
-isinvertible(::Identity) = true
+isinvertible(::Type{Identity}) = true
 
 inverse(::Identity) = Identity()
 
