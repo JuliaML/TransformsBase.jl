@@ -62,6 +62,13 @@ object is valid for the `transform`.
 function assertions end
 
 """
+    parameters(transform)
+
+Returns a named tuple with the adjustable parameters of the `transform`.
+"""
+function parameters end
+
+"""
     prep = preprocess(transform, object)
 
 Pre-process `object` with `transform` to produce a `preproc` object.
