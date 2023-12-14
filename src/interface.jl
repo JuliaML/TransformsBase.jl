@@ -115,6 +115,8 @@ isinvertible(::Type{<:Transform}) = false
 
 assertions(transform::Transform) = []
 
+parameters(transform::Transform) = (;)
+
 preprocess(transform::Transform, object) = nothing
 
 reapply(transform::Transform, object, cache) = apply(transform, object) |> first
