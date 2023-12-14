@@ -17,6 +17,8 @@ using Test
   @test !TransformsBase.isrevertible(T → T)
   @test !TransformsBase.isinvertible(T → T)
   @test TransformsBase.assertions(T) |> isempty
+  @test TransformsBase.parameters(T) isa NamedTuple
+  @test TransformsBase.parameters(T) |> isempty
   @test TransformsBase.preprocess(T, nothing) |> isnothing
   @test TransformsBase.reapply(T, 1, nothing) == 1
 
