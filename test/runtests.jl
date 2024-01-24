@@ -26,4 +26,21 @@ using Test
   T = TestTransform() → TestTransform()
   @test (T → Identity()) == T
   @test (Identity() → T) == T
+
+  # sequential
+  T = TransformsBase.SequentialTransform([TestTransform(), Identity()])
+  # iteration interface
+  @test length(T) == 2
+  T1, state = iterate(T)
+  @test T1 == TestTransform()
+  T2, state = iterate(T, state)
+  @test T2 == Identity()
+  @test isnothing(iterate(T, state))
+  # indexing interface
+  @test T[1] == TestTransform()
+  @test T[2] == Identity()
+  @test firstindex(T) == 1
+  @test lastindex(T) == 2
+  @test T[begin] == TestTransform()
+  @test T[end] == Identity()
 end
