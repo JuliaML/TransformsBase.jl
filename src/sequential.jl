@@ -68,6 +68,15 @@ Create a [`SequentialTransform`](@ref) transform with
 AbstractTrees.nodevalue(::SequentialTransform) = SequentialTransform
 AbstractTrees.children(s::SequentialTransform) = s.transforms
 
+# iteration interface
+Base.length(s::SequentialTransform) = length(s.transforms)
+Base.iterate(s::SequentialTransform, args...) = iterate(s.transforms, args...)
+
+# indexing interface
+Base.getindex(s::SequentialTransform, i) = getindex(s.transforms, i)
+Base.firstindex(s::SequentialTransform) = firstindex(s.transforms)
+Base.lastindex(s::SequentialTransform) = lastindex(s.transforms)
+
 Base.show(io::IO, s::SequentialTransform) = print(io, join(s.transforms, " → "))
 
 function Base.show(io::IO, ::MIME"text/plain", s::SequentialTransform)
