@@ -43,4 +43,17 @@ using Test
   @test lastindex(T) == 2
   @test T[begin] == TestTransform()
   @test T[end] == Identity()
+
+  T1 = Identity()
+  T2 = TestTransform()
+  T3 = TestTransform() → TestTransform()
+  @test sprint(show, T1) == "Identity()"
+  @test sprint(show, MIME("text/plain"), T1) == "Identity transform"
+  @test sprint(show, T2) == "TestTransform()"
+  @test sprint(show, MIME("text/plain"), T2) == "TestTransform transform"
+  @test sprint(show, T3) == "TestTransform() → TestTransform()"
+  @test sprint(show, MIME("text/plain"), T3) == """
+  SequentialTransform
+  ├─ TestTransform()
+  └─ TestTransform()"""
 end

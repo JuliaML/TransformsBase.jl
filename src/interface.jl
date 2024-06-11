@@ -123,22 +123,21 @@ reapply(transform::Transform, object, cache) = apply(transform, object) |> first
 
 (transform::Transform)(object) = apply(transform, object) |> first
 
+# -----------
+# IO METHODS
+# -----------
+
+Base.summary(io::IO, transform::Transform) = print(io, "$(prettyname(transform)) transform")
+
 function Base.show(io::IO, transform::Transform)
-  T = typeof(transform)
-  vals = getfield.(Ref(transform), fieldnames(T))
-  strs = repr.(vals, context=io)
-  print(io, "$(nameof(T))($(join(strs, ", ")))")
+  name = prettyname(transform)
+  ioctx = IOContext(io, :compact => true)
+  print(io, "$name(")
+  printfields(ioctx, transform, singleline=true)
+  print(io, ")")
 end
 
 function Base.show(io::IO, ::MIME"text/plain", transform::Transform)
-  T = typeof(transform)
-  fnames = fieldnames(T)
-  len = length(fnames)
-  print(io, "$(nameof(T)) transform")
-  for (i, field) in enumerate(fnames)
-    div = i == len ? "\n└─ " : "\n├─ "
-    val = getfield(transform, field)
-    str = repr(val, context=io)
-    print(io, "$div$field = $str")
-  end
+  summary(io, transform)
+  printfields(io, transform)
 end
