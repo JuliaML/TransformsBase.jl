@@ -1,7 +1,7 @@
 name = "TransformsBase"
 uuid = "28dd2a49-a57a-4bfb-84ca-1a49db9b96b8"
 authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com> and contributors"]
-version = "1.4.1"
+version = "1.5.0"
 
 [deps]
 AbstractTrees = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
