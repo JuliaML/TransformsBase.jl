@@ -6,6 +6,7 @@ module TransformsBase
 
 import AbstractTrees
 
+include("ioutils.jl")
 include("interface.jl")
 include("sequential.jl")
 include("identity.jl")
