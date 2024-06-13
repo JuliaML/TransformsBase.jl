@@ -29,6 +29,10 @@ using Test
 
   # sequential
   T = TransformsBase.SequentialTransform([TestTransform(), Identity()])
+
+  # equality:
+  @test T == TransformsBase.SequentialTransform([TestTransform(), Identity()])
+
   # iteration interface
   @test length(T) == 2
   T1, state = iterate(T)
