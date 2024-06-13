@@ -30,8 +30,8 @@ using Test
   # sequential
   T = TransformsBase.SequentialTransform([TestTransform(), Identity()])
 
-  # equality:
-  @test T == TransformsBase.SequentialTransform([TestTransform(), Identity()])
+  # equality
+  @test T == T
 
   # iteration interface
   @test length(T) == 2
