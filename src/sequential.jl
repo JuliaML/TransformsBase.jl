@@ -19,7 +19,7 @@ inverse(s::SequentialTransform) = SequentialTransform([inverse(t) for t in rever
 
 function apply(s::SequentialTransform, table)
   allcache = []
-  current  = table
+  current = table
   for transform in s.transforms
     current, cache = apply(transform, current)
     push!(allcache, cache)
@@ -29,7 +29,7 @@ end
 
 function revert(s::SequentialTransform, newtable, cache)
   allcache = deepcopy(cache)
-  current  = newtable
+  current = newtable
   for transform in reverse(s.transforms)
     current = revert(transform, current, pop!(allcache))
   end
@@ -52,6 +52,8 @@ function reapply(s::SequentialTransform, table, cache)
 
   current
 end
+
+Base.:(==)(s1::SequentialTransform, s2::SequentialTransform) = s1.transforms == s2.transforms
 
 """
     transform₁ → transform₂ → ⋯ → transformₙ
