@@ -48,6 +48,20 @@ using Test
   @test T[begin] == TestTransform()
   @test T[end] == Identity()
 
+  # equality and approximation
+  struct TestParamTransform <: TransformsBase.Transform
+    param::Float64
+  end
+  TransformsBase.apply(t::TestParamTransform, x) = x * t.param, nothing
+  TransformsBase.parameters(t::TestParamTransform) = (; param=t.param)
+  T1 = TestParamTransform(1.0)
+  T2 = TestParamTransform(1.0f0)
+  T3 = TestTransform()
+  @test T1 == T2
+  @test T1 ≠ T3
+  @test T1 ≈ T2
+  @test T1 ≉ T3
+
   T1 = Identity()
   T2 = TestTransform()
   T3 = TestTransform() → TestTransform()

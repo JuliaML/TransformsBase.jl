@@ -123,6 +123,19 @@ reapply(transform::Transform, object, cache) = apply(transform, object) |> first
 
 (transform::Transform)(object) = apply(transform, object) |> first
 
+Base.:(==)(t₁::Transform, t₂::Transform) = nameof(typeof(t₁)) == nameof(typeof(t₂)) && parameters(t₁) == parameters(t₂)
+
+Base.isapprox(t₁::Transform, t₂::Transform; kwargs...) =
+  nameof(typeof(t₁)) == nameof(typeof(t₂)) && _isapprox(parameters(t₁), parameters(t₂); kwargs...)
+
+_isapprox(tup₁::NamedTuple, tup₂::NamedTuple; kwargs...) =
+  propertynames(tup₁) == propertynames(tup₂) && _isapprox(Tuple(tup₁), Tuple(tup₂); kwargs...)
+
+_isapprox(tup₁::Tuple, tup₂::Tuple; kwargs...) =
+  length(tup₁) == length(tup₂) && all(_isapprox(x₁, x₂; kwargs...) for (x₁, x₂) in zip(tup₁, tup₂))
+
+_isapprox(x₁, x₂; kwargs...) = isapprox(x₁, x₂; kwargs...)
+
 # -----------
 # IO METHODS
 # -----------
